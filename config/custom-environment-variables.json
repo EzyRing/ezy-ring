@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "ezyring_jwtPrivateKey"
+  "jwtPrivateKey": "ezyring_jwtPrivateKey",
+  "db": "ezyring_db"
 }
