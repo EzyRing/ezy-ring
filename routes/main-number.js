@@ -17,6 +17,8 @@ router.post("/", async (req, res) => {
     region: req.body.region,
     areaCode: req.body.areaCode,
     number: req.body.number,
+    isLocal: req.body.isLocal,
+    isTaken: req.body.isTaken,
   });
   mainNumber = await mainNumber.save();
 
@@ -33,6 +35,8 @@ router.put("/:id", async (req, res) => {
       region: req.body.region,
       areaCode: req.body.areaCode,
       number: req.body.number,
+      isLocal: req.body.isLocal,
+      isTaken: req.body.isTaken,
     },
     { new: true }
   );
