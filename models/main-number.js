@@ -29,6 +29,8 @@ function validateMainNumber(mainNumber) {
     region: Joi.string().min(2).required(),
     areaCode: Joi.string().min(3).required(),
     number: Joi.string().min(7).required(),
+    isTaken: Joi.boolean(),
+    isLocal: Joi.boolean(),
   };
 
   return Joi.validate(mainNumber, schema);
