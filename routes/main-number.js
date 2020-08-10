@@ -3,9 +3,30 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  //handling query parameters
-  // this needs to be done(**)
-  const numbers = await MainNumber.find().sort("region");
+  let numbers;
+  if (req.query.by) {
+    numbers = await MainNumber.find()
+      .sort("region")
+      .select(req.query.by)
+      .distinct("region");
+    //numbers = await numbers;
+  } else if (req.query.region && !req.query.areaCode) {
+    numbers = await MainNumber.find({
+      region: req.query.region,
+    })
+      .sort("areaCode")
+      .select("areaCode");
+  } else if (req.query.region && req.query.areaCode) {
+    numbers = await MainNumber.find({
+      region: req.query.region,
+      areaCode: req.query.areaCode,
+    })
+      .sort("number")
+      .select("number");
+  } else {
+    numbers = await MainNumber.find().sort("region");
+  }
+
   res.send(numbers);
 });
 
