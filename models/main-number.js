@@ -16,11 +16,9 @@ const mainNumberSchema = new mongoose.Schema({
   },
   isTaken: {
     type: Boolean,
-    required: true,
   },
   isLocal: {
     type: Boolean,
-    required: true,
   },
 });
 
