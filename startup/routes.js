@@ -10,9 +10,11 @@ const mainNumber = require("../routes/main-number");
 const companyInfo = require("../routes/companyinfo");
 const phoneNumber = require("../routes/phone-number");
 const error = require("../middleware/error");
+const cors = require("cors");
 
 module.exports = function (app) {
   app.use(express.json());
+  app.use(cors());
   app.use("/api/genres", genres);
   app.use("/api/customers", customers);
   app.use("/api/movies", movies);
@@ -24,17 +26,17 @@ module.exports = function (app) {
   app.use("/api/companyinfo", companyInfo);
   app.use("/api/phonenumber", phoneNumber);
   app.use(error);
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
+  // app.use((req, res, next) => {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Headers", "*");
 
-    if (req.method === "OPTIONS") {
-      res.header(
-        "Access-Control-Allow-Methods",
-        "PUT, POST, PATCH, DELETE, GET"
-      );
-      res.status(200).send("OK");
-    }
-    next();
-  });
+  //   if (req.method === "OPTIONS") {
+  //     res.header(
+  //       "Access-Control-Allow-Methods",
+  //       "PUT, POST, PATCH, DELETE, GET, POST"
+  //     );
+  //     res.status(200).send("OK");
+  //   }
+  //   next();
+  // });
 };
