@@ -3,11 +3,12 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const plan = await PricingPlan.find().sort("name");
+  const plan = await PricingPlan.find().sort("price");
   res.send(plan);
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -16,11 +17,7 @@ router.post("/", async (req, res) => {
     shortDiscription: req.body.shortDiscription,
     price: req.body.price,
     currency: req.body.currency,
-    details: {
-      noOfUsers: req.body.details.noOfUsers,
-      assignUsers: req.body.details.assignUsers,
-      company: req.body.details.assignUsers,
-    },
+    details: req.body.details,
   });
   plan = await plan.save();
 

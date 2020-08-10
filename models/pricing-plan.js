@@ -19,11 +19,12 @@ const pricingPlanSchema = new mongoose.Schema({
   currency: {
     type: String,
   },
-  details: {
-    noOfUsers: { type: Number },
-    assignUsers: Boolean,
-    company: Boolean,
-  },
+  details: [
+    {
+      type: String,
+      required: false,
+    },
+  ],
 });
 
 const PricingPlan = mongoose.model("pricing-plan", pricingPlanSchema);
@@ -34,7 +35,7 @@ function validatePricingPlan(pricingPlan) {
     shortDiscription: Joi.string().min(3).required(),
     price: Joi.number().min(0).required(),
     currency: Joi.string(),
-    details: Joi.object(),
+    details: Joi.array().items(Joi.string()),
   };
 
   return Joi.validate(pricingPlan, schema);
