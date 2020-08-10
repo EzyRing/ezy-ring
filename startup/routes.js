@@ -24,4 +24,17 @@ module.exports = function (app) {
   app.use("/api/companyinfo", companyInfo);
   app.use("/api/phonenumber", phoneNumber);
   app.use(error);
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+
+    if (req.method === "OPTIONS") {
+      res.header(
+        "Access-Control-Allow-Methods",
+        "PUT, POST, PATCH, DELETE, GET"
+      );
+      res.status(200).send("OK");
+    }
+    next();
+  });
 };
