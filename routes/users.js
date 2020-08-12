@@ -116,7 +116,7 @@ router.post("/", async (req, res) => {
       //   ])
       // );
       res.send({
-        "x-auth-token": token,
+        token: token,
       });
     })
     .catch(function (err) {
