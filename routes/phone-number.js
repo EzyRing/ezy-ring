@@ -9,8 +9,53 @@ router.get("/", auth, async (req, res) => {
   let phoneNumbers;
   if (req.query.isTaken) {
     phoneNumbers = await PhoneNumber.find({ isTaken: req.query.isTaken });
+  } else if (req.query.isTaken && req.query.by) {
+    phoneNumbers = await PhoneNumber.find({ isTaken: req.query.isTaken })
+      .sort("location")
+      .select(req.query.by)
+      .distinct("location");
+    //numbers = await numbers;
+  } else if (
+    req.query.isTaken &&
+    req.query.location &&
+    !req.query.numberType &&
+    !req.query.state
+  ) {
+    phoneNumbers = await PhoneNumber.find({
+      isTaken: req.query.isTaken,
+      location: req.query.location,
+    })
+      .sort("numberType")
+      .select("numberType");
+  } else if (
+    req.query.isTaken &&
+    req.query.region &&
+    req.query.numberType &&
+    !req.query.state
+  ) {
+    phoneNumbers = await PhoneNumber.find({
+      isTaken: req.query.isTaken,
+      location: req.query.location,
+      numberType: req.query.numberType,
+    })
+      .sort("state")
+      .select("state");
+  } else if (
+    req.query.isTaken &&
+    req.query.region &&
+    req.query.numberType &&
+    req.query.state
+  ) {
+    numphoneNumbersbers = await PhoneNumber.find({
+      isTaken: req.query.isTaken,
+      location: req.query.location,
+      numberType: req.query.numberType,
+      state: req.query.state,
+    })
+      .sort("number")
+      .select("number price");
   } else {
-    phoneNumbers = await PhoneNumber.find();
+    phoneNumbers = await PhoneNumber.find().sort("state");
   }
 
   res.send(phoneNumbers);
