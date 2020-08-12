@@ -12,7 +12,8 @@ router.get("/", auth, async (req, res) => {
     !req.query.by &&
     !req.query.location &&
     !req.query.numberType &&
-    !req.query.state
+    !req.query.state &&
+    !req.query.areaCode
   ) {
     phoneNumbers = await PhoneNumber.find({ isTaken: req.query.isTaken });
   } else if (
@@ -20,7 +21,8 @@ router.get("/", auth, async (req, res) => {
     req.query.by &&
     !req.query.location &&
     !req.query.numberType &&
-    !req.query.state
+    !req.query.state &&
+    !req.query.areaCode
   ) {
     phoneNumbers = await PhoneNumber.find({ isTaken: req.query.isTaken })
       .sort("location")
@@ -31,7 +33,8 @@ router.get("/", auth, async (req, res) => {
     req.query.isTaken &&
     req.query.location &&
     !req.query.numberType &&
-    !req.query.state
+    !req.query.state &&
+    !req.query.areaCode
   ) {
     phoneNumbers = await PhoneNumber.find({
       isTaken: req.query.isTaken,
@@ -43,7 +46,8 @@ router.get("/", auth, async (req, res) => {
     req.query.isTaken &&
     req.query.location &&
     req.query.numberType &&
-    !req.query.state
+    !req.query.state &&
+    !req.query.areaCode
   ) {
     phoneNumbers = await PhoneNumber.find({
       isTaken: req.query.isTaken,
@@ -56,13 +60,30 @@ router.get("/", auth, async (req, res) => {
     req.query.isTaken &&
     req.query.location &&
     req.query.numberType &&
-    req.query.state
+    req.query.state &&
+    !req.query.areaCode
   ) {
     phoneNumbers = await PhoneNumber.find({
       isTaken: req.query.isTaken,
       location: req.query.location,
       numberType: req.query.numberType,
       state: req.query.state,
+    })
+      .sort("areaCode")
+      .select("areaCode");
+  } else if (
+    req.query.isTaken &&
+    req.query.location &&
+    req.query.numberType &&
+    req.query.state &&
+    req.query.areaCode
+  ) {
+    phoneNumbers = await PhoneNumber.find({
+      isTaken: req.query.isTaken,
+      location: req.query.location,
+      numberType: req.query.numberType,
+      state: req.query.state,
+      areaCode: req.query.areaCode,
     })
       .sort("number")
       .select("number price");
