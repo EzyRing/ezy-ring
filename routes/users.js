@@ -89,32 +89,35 @@ router.post("/", async (req, res) => {
     )
     .run()
     .then(function () {
-      res.header("x-auth-token", token).send(
-        //user
-        _.pick(user, [
-          "_id",
-          "firstName",
-          "lastName",
-          "email",
-          "password",
-          "isAdmin",
-          "company",
-          "streetAddress",
-          "city",
-          "state",
-          "zipCode",
-          "country",
-          "cc_info.cc_firstName",
-          "cc_info.cc_lastName",
-          "cc_info.cc_cardNumber",
-          "cc_info.cc_cardExpiry",
-          "cc_info.cc_cvv",
-          "pricingPlan",
-          "mainNumber",
-          "noOfUsers",
-          "phoneNumber",
-        ])
-      );
+      // res.header("x-auth-token", token).send(
+      //   //user
+      //   _.pick(user, [
+      //     "_id",
+      //     "firstName",
+      //     "lastName",
+      //     "email",
+      //     "password",
+      //     "isAdmin",
+      //     "company",
+      //     "streetAddress",
+      //     "city",
+      //     "state",
+      //     "zipCode",
+      //     "country",
+      //     "cc_info.cc_firstName",
+      //     "cc_info.cc_lastName",
+      //     "cc_info.cc_cardNumber",
+      //     "cc_info.cc_cardExpiry",
+      //     "cc_info.cc_cvv",
+      //     "pricingPlan",
+      //     "mainNumber",
+      //     "noOfUsers",
+      //     "phoneNumber",
+      //   ])
+      // );
+      res.send({
+        "x-auth-token": token,
+      });
     })
     .catch(function (err) {
       // Everything has been rolled back.
