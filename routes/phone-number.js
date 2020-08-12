@@ -7,9 +7,21 @@ const _ = require("lodash");
 
 router.get("/", auth, async (req, res) => {
   let phoneNumbers;
-  if (req.query.isTaken) {
+  if (
+    req.query.isTaken &&
+    !req.query.by &&
+    !req.query.location &&
+    !req.query.numberType &&
+    !req.query.state
+  ) {
     phoneNumbers = await PhoneNumber.find({ isTaken: req.query.isTaken });
-  } else if (req.query.isTaken && req.query.by) {
+  } else if (
+    req.query.isTaken &&
+    req.query.by &&
+    !req.query.location &&
+    !req.query.numberType &&
+    !req.query.state
+  ) {
     phoneNumbers = await PhoneNumber.find({ isTaken: req.query.isTaken })
       .sort("location")
       .select(req.query.by)
@@ -29,7 +41,7 @@ router.get("/", auth, async (req, res) => {
       .select("numberType");
   } else if (
     req.query.isTaken &&
-    req.query.region &&
+    req.query.location &&
     req.query.numberType &&
     !req.query.state
   ) {
@@ -42,11 +54,11 @@ router.get("/", auth, async (req, res) => {
       .select("state");
   } else if (
     req.query.isTaken &&
-    req.query.region &&
+    req.query.location &&
     req.query.numberType &&
     req.query.state
   ) {
-    numphoneNumbersbers = await PhoneNumber.find({
+    phoneNumbers = await PhoneNumber.find({
       isTaken: req.query.isTaken,
       location: req.query.location,
       numberType: req.query.numberType,
