@@ -41,7 +41,8 @@ router.get("/", auth, async (req, res) => {
       location: req.query.location,
     })
       .sort("numberType")
-      .select("numberType");
+      .select("numberType")
+      .distinct("numberType");
   } else if (
     req.query.isTaken &&
     req.query.location &&
@@ -55,7 +56,8 @@ router.get("/", auth, async (req, res) => {
       numberType: req.query.numberType,
     })
       .sort("state")
-      .select("state");
+      .select("state")
+      .distinct("state");
   } else if (
     req.query.isTaken &&
     req.query.location &&
@@ -70,7 +72,8 @@ router.get("/", auth, async (req, res) => {
       state: req.query.state,
     })
       .sort("areaCode")
-      .select("areaCode");
+      .select("areaCode")
+      .distinct("areaCode");
   } else if (
     req.query.isTaken &&
     req.query.location &&
