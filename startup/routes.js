@@ -9,6 +9,7 @@ const pricing = require("../routes/pricing-plan");
 const mainNumber = require("../routes/main-number");
 const companyInfo = require("../routes/companyinfo");
 const phoneNumber = require("../routes/phone-number");
+const message = require("../routes/message");
 const error = require("../middleware/error");
 const cors = require("cors");
 
@@ -25,6 +26,7 @@ module.exports = function (app) {
   app.use("/api/main-numbers", mainNumber);
   app.use("/api/companyinfo", companyInfo);
   app.use("/api/phonenumber", phoneNumber);
+  app.use("/api/message", message);
   app.use(error);
   // app.use((req, res, next) => {
   //   res.header("Access-Control-Allow-Origin", "*");

@@ -2,8 +2,6 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const mongoose = require("mongoose");
-const { pricingPlanSchema } = require("./pricing-plan");
-const { mainNumberSchema } = require("./main-number");
 
 const userSchema = new mongoose.Schema({
   firstName: {
