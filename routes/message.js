@@ -72,12 +72,17 @@ router.get("/:number", auth, async (req, res) => {
   }).select("_id");
 
   const message = await Message.findOne({ number: numberId._id });
+  // console.log(message);
   //   console.log(
   //     message.messages.sort((a, b) => -a.timestamp.localeCompare(b.timestamp))
   //   );
-  res.send(
-    message.messages.sort((a, b) => -a.timestamp.localeCompare(b.timestamp))
-  );
+  if (message != null) {
+    res.send(
+      message.messages.sort((a, b) => -a.timestamp.localeCompare(b.timestamp))
+    );
+  } else {
+    res.send([]);
+  }
 });
 
 module.exports = router;
