@@ -10,6 +10,9 @@ const mainNumber = require("../routes/main-number");
 const companyInfo = require("../routes/companyinfo");
 const phoneNumber = require("../routes/phone-number");
 const message = require("../routes/message");
+const voicemail = require("../routes/voicemail");
+const viewer = require("../routes/viewer");
+const subsidiary = require("../routes/subsidiary");
 const error = require("../middleware/error");
 const cors = require("cors");
 
@@ -27,18 +30,8 @@ module.exports = function (app) {
   app.use("/api/companyinfo", companyInfo);
   app.use("/api/phonenumber", phoneNumber);
   app.use("/api/message", message);
+  app.use("/api/voicemail", voicemail);
+  app.use("/api/viewer", viewer);
+  app.use("/api/subsidiary", subsidiary);
   app.use(error);
-  // app.use((req, res, next) => {
-  //   res.header("Access-Control-Allow-Origin", "*");
-  //   res.header("Access-Control-Allow-Headers", "*");
-
-  //   if (req.method === "OPTIONS") {
-  //     res.header(
-  //       "Access-Control-Allow-Methods",
-  //       "PUT, POST, PATCH, DELETE, GET, POST"
-  //     );
-  //     res.status(200).send("OK");
-  //   }
-  //   next();
-  // });
 };

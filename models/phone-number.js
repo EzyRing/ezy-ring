@@ -30,6 +30,11 @@ const phoneNumberSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  viewer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "viewer",
+    default: null,
+  },
 });
 
 const PhoneNumber = mongoose.model("phoneNumber", phoneNumberSchema);

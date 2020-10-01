@@ -30,6 +30,12 @@ const companyinfoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  subsidiary: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "subsidiary",
+    },
+  ],
 });
 
 const CompanyInfo = mongoose.model("companyinfo", companyinfoSchema);

@@ -1,4 +1,4 @@
 {
-  "jwtPrivateKey": "",
+  "jwtPrivateKey": "ezyring",
   "db": "mongodb://localhost/ezy-ring"
 }

@@ -6,7 +6,11 @@ const { User } = require("../models/user");
 const _ = require("lodash");
 
 router.get("/", auth, async (req, res) => {
-  const info = await CompanyInfo.find();
+  // let info = await CompanyInfo.findOne({ user: req.user._id }).populate({
+  //   path: "subsidiary",
+  //   model: "subsidiary",
+  // });
+  let info = await CompanyInfo.findOne({ user: req.user._id });
   res.send(info);
 });
 
@@ -55,7 +59,7 @@ router.put("/:id", auth, async (req, res) => {
     {
       companyName: req.body.companyName,
       city: req.body.city,
-      companyAddress: req.body.companyAddressber,
+      companyAddress: req.body.companyAddress,
       state: req.body.state,
       postalCode: req.body.postalCode,
       callerIdName: req.body.callerIdName,
