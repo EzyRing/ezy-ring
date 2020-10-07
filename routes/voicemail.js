@@ -29,8 +29,8 @@ router.get("/testpost", async (req, res) => {
 
     let voicemailObject = {
       from: req.query.from,
-      //voicelink: "http://199.244.88.78/voicemail/" + req.body.voicelink,
-      voicelink: req.query.voicelink,
+      voicelink: "http://199.244.88.78/voicemail/" + req.query.voicelink,
+      //voicelink: req.query.voicelink,
       timestamp: req.query.timestamp,
       _id: new ObjectID(),
     };
@@ -50,7 +50,7 @@ router.get("/testpost", async (req, res) => {
 
     let voicemailObject = {
       from: req.query.from,
-      voicelink: req.query.voicelink,
+      voicelink: "http://199.244.88.78/voicemail/" + req.query.voicelink,
       timestamp: req.query.timestamp,
       _id: new ObjectID(),
     };
