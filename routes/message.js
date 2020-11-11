@@ -11,22 +11,27 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
+  console.log(req.headers);
   const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) {
+    console.log(error);
+    return res.status(400).send(error.details[0].message);
+  }
 
   const numberId = await PhoneNumber.findOne({
     number: req.body.number,
   }).select("_id");
-  //console.log(numberId);
+  console.log(numberId);
   //Date time
   let updateDate = new Date();
   updateDate = updateDate.toISOString();
 
-  //console.log(updateDate);
+  console.log(updateDate);
 
   let messageblob = await Message.findOne({ number: numberId });
 
-  // console.log(messageblob);
+  console.log(messageblob);
 
   if (messageblob != null) {
     messageblob.updatedOn = updateDate;
