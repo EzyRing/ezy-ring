@@ -15,9 +15,11 @@ const viewer = require("../routes/viewer");
 const subsidiary = require("../routes/subsidiary");
 const error = require("../middleware/error");
 const cors = require("cors");
+var bodyParser = require("body-parser");
 
 module.exports = function (app) {
-  app.use(express.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
   app.use(cors());
   app.use("/api/genres", genres);
   app.use("/api/customers", customers);
