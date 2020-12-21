@@ -77,7 +77,7 @@ router.put("/:id", auth, async (req, res) => {
 });
 
 router.delete("/:id", auth, async (req, res) => {
-  const comapanyinfo = await CompanyInfo.findByIdAndRemove(req.params, id);
+  const comapanyinfo = await CompanyInfo.findByIdAndRemove(req.params.id);
 
   if (!comapanyinfo)
     return res
