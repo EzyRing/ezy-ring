@@ -153,7 +153,7 @@ router.post("/addnumber/:id", [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const number = await PhoneNumber.findOne({ _id: req.body.number });
+  const number = await PhoneNumber.findOne({ _id: req.body.id });
   if (!number) return res.status(404).send("The number was not found.");
 
   if (number.viewer != null) {
@@ -182,7 +182,7 @@ router.post("/deletenumber/:id", [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const number = await PhoneNumber.findOne({ _id: req.body.number });
+  const number = await PhoneNumber.findOne({ _id: req.body.id });
   if (!number) return res.status(404).send("The number was not found.");
 
   if (number.viewer == null) {
