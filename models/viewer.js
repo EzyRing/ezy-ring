@@ -36,6 +36,7 @@ const Viewer = mongoose.model("viewer", viewerSchema, "viewer");
 
 function validateViewer(viewer) {
   const schema = {
+    id: Joi.objectId(),
     name: Joi.string().min(3).max(50),
     password: Joi.string().min(3).max(16),
     number: Joi.string().min(3).max(16),
