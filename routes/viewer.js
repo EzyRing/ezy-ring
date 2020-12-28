@@ -44,14 +44,7 @@ router.get("/", [auth, admin], async (req, res) => {
       return res.status(400).send("Subsidiary Doesnt Exist");
     }
 
-    await subsidiary.populate("viewer").execPopulate();
-
-    await subsidiary
-      .populate({
-        path: "number",
-        model: "phoneNumber",
-      })
-      .execPopulate();
+    await subsidiary.populate("viewer").populate("number").execPopulate();
     return res.send(subsidiary);
   }
 
@@ -67,10 +60,7 @@ router.get("/", [auth, admin], async (req, res) => {
   await info
     .populate({
       path: "viewer",
-      populate: {
-        path: "number",
-        model: "phoneNumber",
-      },
+      model: "viewer",
     })
     .execPopulate();
   res.send(info.subsidiary);
