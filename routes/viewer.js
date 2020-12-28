@@ -37,12 +37,7 @@ router.get("/", [auth, admin], async (req, res) => {
       return res.status(400).send("No Such Company or Subsidiary Exist");
     }
     if (req.query.subsidiary == "ALL") {
-      const subsidiary = await Subsidiary.find().select("viewer");
-      if (!subsidiary) {
-        return res.status(400).send("Subsidiary Doesnt Exist");
-      }
-
-      await subsidiary
+      await info.subsidiary
         .populate("viewer")
         .populate({
           path: "viewer",
@@ -52,7 +47,7 @@ router.get("/", [auth, admin], async (req, res) => {
           },
         })
         .execPopulate();
-      return res.send(subsidiary);
+      return res.send(info.subsidiary);
     } else {
       const subsidiary = await Subsidiary.findById(req.query.subsidiary).select(
         "viewer"
