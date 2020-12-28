@@ -92,7 +92,7 @@ router.get("/", [auth, admin], async (req, res) => {
       },
     })
     .populate({
-      path: "viewer",
+      path: "subsidiary.viewer",
       populate: {
         path: "number",
         model: "phoneNumber",
