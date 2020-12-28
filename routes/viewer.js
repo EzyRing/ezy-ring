@@ -37,10 +37,14 @@ router.get("/", [auth, admin], async (req, res) => {
       return res.status(400).send("No Such Company or Subsidiary Exist");
     }
     if (req.query.subsidiary == "ALL") {
-      await info.subsidiary
-        .populate("viewer")
+      await info
+        .populate("subsidiary")
         .populate({
-          path: "viewer",
+          path: "subsidiary.viewer",
+          model: "viewer",
+        })
+        .populate({
+          path: "subsidiary.viewer",
           populate: {
             path: "number",
             model: "phoneNumber",
