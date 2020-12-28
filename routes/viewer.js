@@ -44,8 +44,10 @@ router.get("/", [auth, admin], async (req, res) => {
       return res.status(400).send("Subsidiary Doesnt Exist");
     }
 
-    await subsidiary.populate("viewer").populate("number").execPopulate();
-    return res.send(subsidiary);
+    let viewer = await subsidiary.populate("viewer").execPopulate();
+
+    viewer = await viewer.populate("number").execPopulate();
+    return res.send(viewer);
   }
 
   const info = await CompanyInfo.findOne({
