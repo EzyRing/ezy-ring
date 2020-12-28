@@ -36,25 +36,43 @@ router.get("/", [auth, admin], async (req, res) => {
     if (!info) {
       return res.status(400).send("No Such Company or Subsidiary Exist");
     }
+    if (req.query.subsidiary == "ALL") {
+      const subsidiary = await Subsidiary.find().select("viewer");
+      if (!subsidiary) {
+        return res.status(400).send("Subsidiary Doesnt Exist");
+      }
 
-    const subsidiary = await Subsidiary.findById(req.query.subsidiary).select(
-      "viewer"
-    );
-    if (!subsidiary) {
-      return res.status(400).send("Subsidiary Doesnt Exist");
+      await subsidiary
+        .populate("viewer")
+        .populate({
+          path: "viewer",
+          populate: {
+            path: "number",
+            model: "phoneNumber",
+          },
+        })
+        .execPopulate();
+      return res.send(subsidiary);
+    } else {
+      const subsidiary = await Subsidiary.findById(req.query.subsidiary).select(
+        "viewer"
+      );
+      if (!subsidiary) {
+        return res.status(400).send("Subsidiary Doesnt Exist");
+      }
+
+      await subsidiary
+        .populate("viewer")
+        .populate({
+          path: "viewer",
+          populate: {
+            path: "number",
+            model: "phoneNumber",
+          },
+        })
+        .execPopulate();
+      return res.send(subsidiary);
     }
-
-    await subsidiary
-      .populate("viewer")
-      .populate({
-        path: "viewer",
-        populate: {
-          path: "number",
-          model: "phoneNumber",
-        },
-      })
-      .execPopulate();
-    return res.send(subsidiary);
   }
 
   const info = await CompanyInfo.findOne({
@@ -65,17 +83,7 @@ router.get("/", [auth, admin], async (req, res) => {
     return res.status(400).send("No Such Company or Subsidiary Exist");
   }
 
-  await info
-    .populate("subsidiary")
-    .populate("viewer")
-    .populate({
-      path: "viewer",
-      populate: {
-        path: "number",
-        model: "phoneNumber",
-      },
-    })
-    .execPopulate();
+  await info.populate("subsidiary").populate("viewer").execPopulate();
 
   res.send(info.subsidiary);
 });
