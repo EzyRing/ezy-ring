@@ -65,7 +65,17 @@ router.get("/", [auth, admin], async (req, res) => {
     return res.status(400).send("No Such Company or Subsidiary Exist");
   }
 
-  await info.populate("subsidiary").populate("viewer").execPopulate();
+  await info
+    .populate("subsidiary")
+    .populate("viewer")
+    .populate({
+      path: "viewer",
+      populate: {
+        path: "number",
+        model: "phoneNumber",
+      },
+    })
+    .execPopulate();
 
   res.send(info.subsidiary);
 });
