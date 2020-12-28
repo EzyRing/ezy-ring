@@ -40,6 +40,7 @@ function validateViewer(viewer) {
     name: Joi.string().min(3).max(50),
     password: Joi.string().min(3).max(16),
     number: Joi.string().min(3).max(16),
+    
     subsidiary: Joi.objectId(),
   };
 
