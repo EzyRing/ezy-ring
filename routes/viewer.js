@@ -46,7 +46,7 @@ router.get("/", [auth, admin], async (req, res) => {
 
     let viewer = await subsidiary.populate("viewer").execPopulate();
 
-    viewer = await viewer.populate("number").execPopulate();
+    viewer = await viewer.populate("phoneNumber").execPopulate();
     return res.send(viewer);
   }
 
