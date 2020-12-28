@@ -36,43 +36,43 @@ router.get("/", [auth, admin], async (req, res) => {
     if (!info) {
       return res.status(400).send("No Such Company or Subsidiary Exist");
     }
-    if (req.query.subsidiary == "ALL") {
-      await info
-        .populate("subsidiary")
-        .populate({
-          path: "subsidiary.viewer",
-          model: "viewer",
-        })
-        .populate({
-          path: "subsidiary.viewer",
-          populate: {
-            path: "number",
-            model: "phoneNumber",
-          },
-        })
-        .execPopulate();
-      return res.send(info.subsidiary);
-    } else {
-      const subsidiary = await Subsidiary.findById(req.query.subsidiary).select(
-        "viewer"
-      );
-      if (!subsidiary) {
-        return res.status(400).send("Subsidiary Doesnt Exist");
-      }
-
-      await subsidiary
-        .populate("viewer")
-        .populate({
-          path: "viewer",
-          populate: {
-            path: "number",
-            model: "phoneNumber",
-          },
-        })
-        .execPopulate();
-      return res.send(subsidiary);
+    // if (req.query.subsidiary == "ALL") {
+    //   await info
+    //     .populate("subsidiary")
+    //     .populate({
+    //       path: "subsidiary.viewer",
+    //       model: "viewer",
+    //     })
+    //     .populate({
+    //       path: "subsidiary.viewer",
+    //       populate: {
+    //         path: "number",
+    //         model: "phoneNumber",
+    //       },
+    //     })
+    //     .execPopulate();
+    //   return res.send(info.subsidiary);
+    // } else {
+    const subsidiary = await Subsidiary.findById(req.query.subsidiary).select(
+      "viewer"
+    );
+    if (!subsidiary) {
+      return res.status(400).send("Subsidiary Doesnt Exist");
     }
+
+    await subsidiary
+      .populate("viewer")
+      .populate({
+        path: "viewer",
+        populate: {
+          path: "number",
+          model: "phoneNumber",
+        },
+      })
+      .execPopulate();
+    return res.send(subsidiary);
   }
+  // }
 
   const info = await CompanyInfo.findOne({
     user: req.user._id,
@@ -92,7 +92,7 @@ router.get("/", [auth, admin], async (req, res) => {
       },
     })
     .populate({
-      path: "viewer",
+      path: "subsidiary.viewer",
       populate: {
         path: "number",
         model: "phoneNumber",
