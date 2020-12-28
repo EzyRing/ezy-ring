@@ -44,7 +44,16 @@ router.get("/", [auth, admin], async (req, res) => {
       return res.status(400).send("Subsidiary Doesnt Exist");
     }
 
-    await subsidiary.populate("viewer").populate("number").execPopulate();
+    await subsidiary
+      .populate("viewer")
+      .populate({
+        path: "viewer",
+        populate: {
+          path: "number",
+          model: "phoneNumber",
+        },
+      })
+      .execPopulate();
     return res.send(subsidiary);
   }
 
