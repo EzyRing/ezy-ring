@@ -36,23 +36,7 @@ router.get("/", [auth, admin], async (req, res) => {
     if (!info) {
       return res.status(400).send("No Such Company or Subsidiary Exist");
     }
-    // if (req.query.subsidiary == "ALL") {
-    //   await info
-    //     .populate("subsidiary")
-    //     .populate({
-    //       path: "subsidiary.viewer",
-    //       model: "viewer",
-    //     })
-    //     .populate({
-    //       path: "subsidiary.viewer",
-    //       populate: {
-    //         path: "number",
-    //         model: "phoneNumber",
-    //       },
-    //     })
-    //     .execPopulate();
-    //   return res.send(info.subsidiary);
-    // } else {
+
     const subsidiary = await Subsidiary.findById(req.query.subsidiary).select(
       "viewer"
     );
@@ -163,6 +147,21 @@ router.delete("/:id", [auth, admin], async (req, res) => {
   if (subsidary) {
     subsidary.viewer.remove(req.params.id);
     subsidary.save();
+  }
+
+  const number = await PhoneNumber.find({ viewer: { $in: [req.params.id] } });
+  if (number) {
+    PhoneNumber.updateMany(
+      { viewer: { $in: [req.params.id] } },
+      { viewer: null },
+      function (err, docs) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Updated Docs : ", docs);
+        }
+      }
+    );
   }
   res.send(viewer);
 });

@@ -5,6 +5,7 @@ const router = express.Router();
 const { User } = require("../models/user");
 const { Subsidiary, validate } = require("../models/subsidiary");
 const { CompanyInfo } = require("../models/companyinfo");
+const { Viewer } = require("../models/viewer");
 const _ = require("lodash");
 const Fawn = require("fawn");
 
@@ -105,10 +106,40 @@ router.delete("/:id", [auth, admin], async (req, res) => {
       .send("The subsidiary with the given ID was not found.");
 
   const company = await CompanyInfo.findOne({ user: req.user._id });
-
   company.subsidiary.remove(req.params.id);
   company.save();
 
+  //remove related viewers and numbers
+  await Viewer.deleteMany({
+    _id: {
+      $in: subsidiary.viewer,
+    },
+  })
+    .then(function () {
+      //console.log("Data deleted"); // Success
+    })
+    .catch(function (error) {
+      console.log(error); // Failure
+    });
+
+  for await (const obj of subsidiary.viewer) {
+    // console.log(obj);
+    const number = await PhoneNumber.find({ viewer: { $in: obj } });
+    if (number) {
+      //console.log(number);
+      await PhoneNumber.updateMany(
+        { viewer: { $in: obj } },
+        { $set: { viewer: null } },
+        function (err, docs) {
+          if (err) {
+            console.log(err);
+          } else {
+            //console.log("Updated Docs : ", docs);
+          }
+        }
+      );
+    }
+  }
   res.send(subsidiary);
 });
 
